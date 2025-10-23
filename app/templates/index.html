@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Jobs</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Gerenciador de Jobs</h1>
+
+        <form action="/create" method="post" class="job-form">
+            <input type="text" name="name" placeholder="Nome do Job" required>
+            <input type="text" name="image" placeholder="Imagem Docker (ex: ubuntu)" required>
+            <input type="text" name="cmd" placeholder="Comando (ex: sleep 10)" required>
+            <input type="number" name="cpus" step="0.1" value="0.5" placeholder="CPUs" required>
+            <input type="number" name="mem_mb" value="128" placeholder="Memória (MB)" required>
+            <input type="number" name="io_weight" value="500" placeholder="IO Weight" required>
+            <button type="submit">Criar Job</button>
+        </form>
+
+        <div class="job-list">
+            {% for job in jobs %}
+                <div class="job-item">
+                    <p><strong>ID:</strong> {{ job.id }}</p>
+                    <p><strong>Nome:</strong> {{ job.name }}</p>
+                    <p><strong>Status:</strong> {{ job.status }}</p>
+                    <div class="job-actions">
+                        <a href="/refresh/{{ job.id }}">Atualizar</a>
+                        <a href="/stop/{{ job.id }}">Parar</a>
+                        <a href="/rm/{{ job.id }}">Remover</a>
+                        <a href="/log/{{ job.id }}">Log</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
